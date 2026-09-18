@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dulces Sueños, Maryorit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pastel-pink: #fad2e1;
+            --pastel-blue: #bde0fe;
+            --text-dark: #5a4b50;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, var(--pastel-pink) 0%, var(--pastel-blue) 100%);
+            background-attachment: fixed;
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        h1, h2, .cursive-font {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { filter: drop-shadow(0 0 8px rgba(255,255,255,0.6)); transform: scale(1); }
+            50% { filter: drop-shadow(0 0 15px rgba(255,255,255,1)); transform: scale(1.02); }
+        }
+
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            z-index: 0;
+            animation: float linear infinite;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px 0 rgba(189, 224, 254, 0.37);
+        }
+
+        .polaroid {
+            background: white;
+            padding: 10px 10px 25px 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            z-index: 10;
+        }
+
+        .polaroid:hover {
+            transform: scale(1.08) rotate(0deg) !important;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            z-index: 20;
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: auto;
+            border-radius: 2px;
+        }
+
+        .polaroid-caption {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            text-align: center;
+            margin-top: 10px;
+            color: #ff9fb4;
+        }
+
+        #modal {
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+        
+        .modal-content {
+            transform: scale(0.9);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        #modal.open .modal-content {
+            transform: scale(1);
+        }
+
+        .audio-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            border-radius: 50px;
+        }
+
+        .btn-audio {
+            transition: all 0.2s;
+        }
+        .btn-audio:hover {
+            transform: scale(1.1);
+            background: #ffb3c6;
+        }
+    </style>
+</head>
+<body class="antialiased pb-24">
+
+    <div id="particles-container" class="fixed inset-0 pointer-events-none overflow-hidden"></div>
+
+    <header class="relative z-10 pt-16 pb-10 px-4 max-w-4xl mx-auto text-center">
+        <div class="glass-panel rounded-3xl p-8 mb-8" style="animation: pulse-glow 4s infinite;">
+            <h1 class="text-5xl md:text-6xl text-pink-500 mb-4 tracking-wide leading-tight">
+                🌸 Dulces Sueños, <br> Mi Amada Maryorit 🌺
+            </h1>
+            <p class="text-lg md:text-xl text-gray-700 leading-relaxed font-light mt-4">
+                Verte dormir es mi mayor paz. En el silencio de la noche, tu respiración es mi canción favorita. <br>
+                Eres mi flor más delicada, mi refugio y mi sueño hecho realidad. 💮
+            </p>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-6xl mx-auto px-4">
+        <div class="flex flex-wrap justify-center gap-8 md:gap-12 py-10">
+            
+            <div class="polaroid w-64 rotate-[-3deg]" onclick="openModal(0)">
+                <img src="img1.jpeg" alt="Maryorit durmiendo">
+                <div class="polaroid-caption">Mi Paz</div>
+            </div>
+
+            <div class="polaroid w-64 rotate-[4deg] mt-8" onclick="openModal(1)">
+                <img src="img2.jpeg" alt="Maryorit durmiendo">
+                <div class="polaroid-caption">Mi Flor</div>
+            </div>
+
+            <div class="polaroid w-64 rotate-[-5deg]" onclick="openModal(2)">
+                <img src="img3.jpeg" alt="Maryorit durmiendo">
+                <div class="polaroid-caption">Tu Guardián</div>
+            </div>
+
+            <div class="polaroid w-64 rotate-[2deg] mt-6" onclick="openModal(3)">
+                <img src="img4.jpeg" alt="Maryorit durmiendo">
+                <div class="polaroid-caption">Mi Latido</div>
+            </div>
+
+            <div class="polaroid w-64 rotate-[-2deg] mt-10" onclick="openModal(4)">
+                <img src="img5.jpeg" alt="Maryorit durmiendo">
+                <div class="polaroid-caption">Amor Eterno</div>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 invisible backdrop-blur-md bg-white/30">
+        <div class="modal-content glass-panel p-6 md:p-10 rounded-2xl max-w-3xl w-[90%] md:w-full mx-4 flex flex-col md:flex-row gap-8 relative shadow-2xl">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-pink-500 hover:text-pink-700 text-3xl font-bold z-10">&times;</button>
+            
+            <div class="w-full md:w-1/2 flex-shrink-0">
+                <div class="polaroid shadow-none hover:transform-none">
+                    <img id="modal-img" src="" alt="Maryorit">
+                </div>
+            </div>
+            
+            <div class="w-full md:w-1/2 flex items-center justify-center">
+                <div class="text-center">
+                    <h2 class="text-4xl text-pink-500 mb-6" id="modal-title">Título</h2>
+                    <p id="modal-poem" class="text-xl text-gray-700 italic leading-loose">
+                        <!-- Poem goes here -->
+                    </p>
+                    <div class="mt-6 text-2xl">🌸 💤 🌺</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="audio-player glass-panel px-6 py-3 shadow-lg flex items-center gap-4">
+        <div class="text-sm font-semibold text-pink-600 mr-2 flex flex-col">
+            <span id="artist-name">José y el Toro, Daniel Me Estás Matando</span>
+            <span id="track-name" class="text-xs text-gray-500 font-normal">Si te vieras</span>
+        </div>
+        
+        <audio id="audio1" src="cancion1.mp3"></audio>
+        <audio id="audio2" src="cancion2.mp3"></audio>
+
+        <button onclick="togglePlay()" id="play-btn" class="btn-audio bg-pink-400 text-white rounded-full w-10 h-10 flex items-center justify-center shadow focus:outline-none">
+            <svg id="icon-play" class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20"><path d="M4 4l12 6-12 6z"></path></svg>
+            <svg id="icon-pause" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M5 4h3v12H5V4zm7 0h3v12h-3V4z"></path></svg>
+        </button>
+
+        <button onclick="nextTrack()" class="btn-audio bg-blue-300 text-white rounded-full w-10 h-10 flex items-center justify-center shadow focus:outline-none">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M13 5h3v10h-3V5zM4 5l9 5-9 5V5z"></path></svg>
+        </button>
+    </div>
+
+    <script>
+        /* --- Data: Poems and Images --- */
+        const contentData = [
+            {
+                title: "Reflejo de Paz",
+                img: "img1.jpeg",
+                poem: "En la quietud de la noche,<br>tu rostro irradia una paz<br>que calma mi alma entera<br>y me enseña a amar más."
+            },
+            {
+                title: "Mi Delicada Flor",
+                img: "img2.jpeg",
+                poem: "Cual gerbera al atardecer<br>o suave hortensia de cristal,<br>reposas frágil y hermosa,<br>mi flor en un sueño celestial."
+            },
+            {
+                title: "Tu Guardián",
+                img: "img3.jpeg",
+                poem: "Si pudiera entrar en tus sueños<br>sería un guardián de luz,<br>espantando las sombras lejos<br>para que solo sonrías tú."
+            },
+            {
+                title: "El Compás de mi Amor",
+                img: "img4.jpeg",
+                poem: "Escuchar tu suave respiro<br>es el compás de mi corazón,<br>un roce, un dulce suspiro,<br>mi más sincera adoración."
+            },
+            {
+                title: "Promesa de Madrugada",
+                img: "img5.jpeg",
+                poem: "Cada noche velaré tu calma<br>y cada alba te besaré,<br>mi vida, mi dulce Maryorit,<br>por siempre te amaré."
+            }
+        ];
+
+        /* --- Modal Logic --- */
+        const modal = document.getElementById('modal');
+        const modalImg = document.getElementById('modal-img');
+        const modalTitle = document.getElementById('modal-title');
+        const modalPoem = document.getElementById('modal-poem');
+
+        function openModal(index) {
+            const data = contentData[index];
+            modalImg.src = data.img;
+            modalTitle.innerHTML = data.title;
+            modalPoem.innerHTML = data.poem;
+            
+            modal.classList.remove('opacity-0', 'invisible');
+            modal.classList.add('open');
+        }
+
+        function closeModal() {
+            modal.classList.remove('open');
+            modal.classList.add('opacity-0', 'invisible');
+            setTimeout(() => {
+                modalImg.src = ""; 
+            }, 400);
+        }
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        /* --- Audio Player Logic --- */
+        let currentTrack = 1;
+        let isPlaying = false;
+        const audio1 = document.getElementById('audio1');
+        const audio2 = document.getElementById('audio2');
+        const iconPlay = document.getElementById('icon-play');
+        const iconPause = document.getElementById('icon-pause');
+        const trackName = document.getElementById('track-name');
+        const artistName = document.getElementById('artist-name');
+
+        function togglePlay() {
+            const activeAudio = currentTrack === 1 ? audio1 : audio2;
+            
+            if (isPlaying) {
+                activeAudio.pause();
+                iconPause.classList.add('hidden');
+                iconPlay.classList.remove('hidden');
+            } else {
+                activeAudio.play().catch(e => console.log("Error al reproducir audio:", e));
+                iconPlay.classList.add('hidden');
+                iconPause.classList.remove('hidden');
+            }
+            isPlaying = !isPlaying;
+        }
+
+        function nextTrack() {
+            const activeAudio = currentTrack === 1 ? audio1 : audio2;
+            activeAudio.pause();
+            activeAudio.currentTime = 0;
+
+            currentTrack = currentTrack === 1 ? 2 : 1;
+            
+            trackName.innerText = currentTrack === 1 ? "Si te vieras" : "Beautiful";
+            artistName.innerText = currentTrack === 1 ? "José y el Toro, Daniel Me Estás Matando" : "MONSTA X";
+            
+            if (isPlaying) {
+                const newAudio = currentTrack === 1 ? audio1 : audio2;
+                newAudio.play().catch(e => console.log("Error al reproducir audio:", e));
+            }
+        }
+
+        /* --- Particle System (Floating Elements) --- */
+        function createParticles() {
+            const container = document.getElementById('particles-container');
+            const particleTypes = ['🌸', '💮', '💤', '✨', '☁️'];
+            const numParticles = 40;
+
+            for (let i = 0; i < numParticles; i++) {
+                let p = document.createElement('div');
+                p.className = 'particle text-xl md:text-2xl';
+                p.innerText = particleTypes[Math.floor(Math.random() * particleTypes.length)];
+                
+                let startPosX = Math.random() * 100;
+                let startPosY = 100 + Math.random() * 20; 
+                let duration = 15 + Math.random() * 20; 
+                let delay = Math.random() * 15; 
+
+                p.style.left = `${startPosX}vw`;
+                p.style.top = `${startPosY}vh`;
+                p.style.animationDuration = `${duration}s`;
+                p.style.animationDelay = `${delay}s`;
+                
+                if (p.innerText === '💤') {
+                    p.style.color = '#8ea4d2';
+                    p.style.opacity = '0.6';
+                    p.style.fontSize = '1.2rem';
+                }
+                
+                container.appendChild(p);
+            }
+        }
+
+        window.onload = () => {
+            createParticles();
+        };
+
+    </script>
+</body>
+</html>
